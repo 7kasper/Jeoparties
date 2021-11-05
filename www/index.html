@@ -327,18 +327,22 @@
 
             // Definitions
             
-
+            function timeout(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
 
             let board = {};
             // definition players
             let players = [];
 
-            function drawBoard() {
+            async function drawBoard() {
                 let domQuestionOverlay = document.getElementById('questionoverlay');
                 domQuestionOverlay.firstElementChild.innerText = board.name;
+                domQuestionOverlay.lastElementChild.innerText = '';
                 doResize();
                 domQuestionOverlay.classList.add('zoomedout');
                 domQuestionOverlay.classList.remove('zoomedin');
+                await timeout(300);
 
                 let domBoard = document.getElementById('board');
                 while (domBoard.firstChild) {
@@ -367,8 +371,8 @@
                         if (host) {
                             domMoneyCard.onclick = () => {
                                 if (!question.taken) {
-                                    if (question.special === 'dailydouble') {
-                                        rpc('/showdailydouble', {catId, qId});
+                                    if (question.special) {
+                                        rpc('/showspecial', {catId, qId, special: question.special});
                                     } else {
                                         // showQuestion(catId, qId);
                                         rpc('/showquestion', {catId, qId});
@@ -409,9 +413,19 @@
                     if (host) {
                         domPlayerInfoCard.onclick = () => {
                             if (shownQuestionId != -1) {
+                                let question = board.catagories[shownCatagoryId].questions[shownQuestionId];
                                 if (insideSpecialQuestion) {
-                                    player.wager = parseInt(prompt('Place wager'));
-                                    rpc('/showquestion', {catId: shownCatagoryId, qId: shownQuestionId});
+                                    let tempwager = parseInt(prompt(`Place wager for ${player.name}`));
+                                    if (tempwager > player.money) {
+                                        alert(`Cannot wager more (${player.wager}) than your money (${player.money})!`);
+                                        return;
+                                    }
+                                    player.wager = tempwager;
+                                    if (question.special === 'dailydouble') {
+                                        rpc('/showquestion', {catId: shownCatagoryId, qId: shownQuestionId});
+                                    } else if (question.special === 'finaljeopardy') {
+                                        // only place wager.
+                                    }
                                 } else {
                                     if (player.wager > 0) {
                                         player.money += player.wager;
@@ -419,7 +433,9 @@
                                     } else {
                                         player.money += board.catagories[shownCatagoryId].questions[shownQuestionId].value;
                                     }
-                                    rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId});
+                                    if (question.special !== 'finaljeopardy') {
+                                        rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId});
+                                    }
                                 }
                                 // hideQuestion(shownCatagoryId, shownQuestionId);
                             } else {
@@ -454,6 +470,7 @@
                 if (lastQuestion) {
                     let domQuestionOverlay = document.getElementById('questionoverlay');
                     domQuestionOverlay.firstElementChild.innerText = 'Board cleared!';
+                    domQuestionOverlay.lastElementChild.innerText = '';
                     doResize();
                     domQuestionOverlay.classList.add('zoomedout');
                     domQuestionOverlay.classList.remove('zoomedin');
@@ -496,12 +513,22 @@
                 setTimeout(() => {crossQuestion(catagoryId, questionId)}, 500);
             }
 
-            function doDailyDouble(catagoryId, questionId) {
+            function showSpecial(catagoryId, questionId, special) {
                 let question = board.catagories[catagoryId].questions[questionId];
                 let domQuestionOverlay = document.getElementById('questionoverlay');
-                domQuestionOverlay.firstElementChild.innerText = 'DAILY DOUBLE!';
-                if (host) {
-                    domQuestionOverlay.lastElementChild.innerText = '';
+                switch (special) {
+                    case 'dailydouble':
+                        domQuestionOverlay.firstElementChild.innerText = 'DAILY DOUBLE!';
+                        domQuestionOverlay.lastElementChild.innerText = '';
+                        break;
+                    case 'finaljeopardy':
+                        domQuestionOverlay.firstElementChild.innerText = 'FINAL JEOPARDY!';
+                        domQuestionOverlay.lastElementChild.innerText = 'Place a wager.';
+                        break;
+                    default:
+                        domQuestionOverlay.firstElementChild.innerText = 'Special Question!';
+                        domQuestionOverlay.lastElementChild.innerText = '';
+                        break;
                 }
                 domQuestionOverlay.classList.remove('zoomedin');
                 domQuestionOverlay.classList.add('zoomedout');
@@ -513,18 +540,23 @@
             if (host) {
                 document.getElementById('playercat').onclick = function() {
                     if (shownQuestionId != -1) {
-                        // hideQuestion(shownCatagoryId, shownQuestionId);
-                        let lazyplayerupdate = false;
-                        for (let i = 0; i < players.length; i++) {
-                            let player = players[i];
-                            if (player.wager > 0) {
-                                player.money -= player.wager;
-                                player.wager = -1;
-                                lazyplayerupdate = true;
+                        if (insideSpecialQuestion) {
+                            rpc('/showquestion', {catId: shownCatagoryId, qId: shownQuestionId});
+                        } else {
+                            // hideQuestion(shownCatagoryId, shownQuestionId);
+                            let lazyplayerupdate = false;
+                            for (let i = 0; i < players.length; i++) {
+                                let player = players[i];
+                                if (player.wager > 0) {
+                                    player.money -= player.wager;
+                                    player.wager = -1;
+                                    lazyplayerupdate = true;
+                                }
                             }
+                            if (lazyplayerupdate) rpc('/updateplayers', {players: players});
+                            rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId});
                         }
-                        if (lazyplayerupdate) rpc('/updateplayers', {players: players});
-                        rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId});
+
                     } else {
                         let newname = prompt('Enter playername:');
                         if (newname) {
@@ -547,7 +579,7 @@
 
             registerHandler('showquestion', (body) => showQuestion(body.catId, body.qId));
             registerHandler('hidequestion', (body) => hideQuestion(body.catId, body.qId));
-            registerHandler('showdailydouble', (body) => doDailyDouble(body.catId, body.qId));
+            registerHandler('showspecial', (body) => showSpecial(body.catId, body.qId, body.special));
 
             registerHandler('players', (body) => {
                 players = body.players; 

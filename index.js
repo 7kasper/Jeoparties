@@ -214,7 +214,7 @@ new RestNio((router, rnio) => {
                 {
                     name: 'Final',
                     questions: [
-                        {value:  0, taken: false, kind: 'normal', text: 'Soccer', answer: 'What is ballgame?'},
+                        {value:  0, taken: false, kind: 'normal', text: 'Soccer', answer: 'What is ballgame?', special: 'finaljeopardy'},
                         {value:  400, taken: true},
                         {value:  600, taken: true},
                         {value:  800, taken: true},
@@ -346,19 +346,21 @@ new RestNio((router, rnio) => {
         }
     });
 
-    router.ws('/showdailydouble', {
+    router.ws('/showspecial', {
         params: {
             catId: rnio.$p.integer,
-            qId: rnio.$p.integer
+            qId: rnio.$p.integer,
+            special: rnio.$p.string
         },
         permissions: ['host'],
         func: (params) => {
             board.catagories[params.catId].questions[params.qId].taken = true;
             rnio.subs('all').obj({
-                type: 'showdailydouble', 
+                type: 'showspecial', 
                 body: {
                     catId: params.catId,
-                    qId: params.qId
+                    qId: params.qId,
+                    special: params.special
                 }
             });
         }
