@@ -121,6 +121,27 @@
             }
             #questionoverlay span {
                 text-align: center;
+                padding-top: 1rem;
+            }
+            #specialquestionbox {
+                max-height: 70%;
+                box-sizing: border-box;
+            }
+            #specialquestionbox .content {
+                box-sizing: border-box;
+                max-height: 100%;
+                width: auto;
+                transition: transform 0.5s ease-in-out;
+            }
+            #specialquestionbox .smallcontent {
+                box-sizing: border-box;
+                max-height: 50%;
+                width: auto;
+                transition: transform 0.5s ease-in-out;
+            }
+            .bordershadow {
+                border: 3px solid black;
+                filter: drop-shadow(2px 4px 6px black);
             }
             #titleimage {
                 width: 14rem;
@@ -274,8 +295,9 @@
                         </div>
                     </div>
                 </div>
-                <div id="questionoverlay" class="zoomedout">
+                <div id="questionoverlay" class="zoomedout resizetext">
                     <span>Loading the board...</span>
+                    <div id="specialquestionbox"></div>
                     <span></span>
                 </div>
             </div>
@@ -315,7 +337,7 @@
             let insideSpecialQuestion = false;
 
             function doResize() {
-                $('.catagory.card,#questionoverlay').textfill({
+                $('.catagory.card,.resizetext').textfill({
                     maxFontPixels: 90
                 });
                 $('.playerinfos').each(function( index ) {
@@ -335,6 +357,7 @@
             // definition players
             let players = [];
 
+            // Loads in the questions and draws the board.
             async function drawBoard() {
                 let domQuestionOverlay = document.getElementById('questionoverlay');
                 domQuestionOverlay.firstElementChild.innerText = board.name;
@@ -362,6 +385,40 @@
                     domCatColumn.classList.add('moneycards');
                     for (let qId = 0; qId < cat.questions.length; qId++) {
                         let question = cat.questions[qId];
+                        // Question loading setup:
+                        switch (question.kind) {
+                            case 'photo':
+                                let domIMG = document.createElement('img');
+                                domIMG.classList.add('bordershadow', 'content');
+                                domIMG.src = question.url;
+                                question.domObj = domIMG;
+                                if (question.urlans) {
+                                    let domAnsIMG = document.createElement('img');
+                                    domAnsIMG.classList.add('bordershadow', 'content');
+                                    domAnsIMG.src = question.urlans;
+                                    question.domAnsObj = domAnsIMG;
+                                }
+                                break;
+                            case 'audio':
+                                let speakerIMG = document.createElement('img');
+                                speakerIMG.classList.add('content');
+                                speakerIMG.src = '/speaker.png';
+                                question.domObj = speakerIMG;
+                                question.domAnsObj = new Audio(question.url);
+                            break;
+                            case 'video':
+                                let domVID = document.createElement('video');
+                                domVID.classList.add('bordershadow', 'content');
+                                domVID.src = question.url;
+                                domVID.load();
+                                question.domObj = domVID;
+                                break;
+                            case 'normal':
+                            default:
+                                break;
+                        }
+
+
                         let domMoneyCard = document.createElement('div');
                         domMoneyCard.classList.add('moneycard', 'card');
                         domMoneyCard.innerText = `$${question.value}`;
@@ -434,7 +491,7 @@
                                         player.money += board.catagories[shownCatagoryId].questions[shownQuestionId].value;
                                     }
                                     if (question.special !== 'finaljeopardy') {
-                                        rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId});
+                                        rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId, vaux: false});
                                     }
                                 }
                                 // hideQuestion(shownCatagoryId, shownQuestionId);
@@ -480,20 +537,14 @@
                 insideSpecialQuestion = false;
                 let question = board.catagories[catagoryId].questions[questionId];
                 let domQuestionOverlay = document.getElementById('questionoverlay');
-                switch(question.kind) {
-                    case "photo": {
-
-                        break;
-                    }
-                    default:
-                    case "normal": {
-                        break;
-                    }
-                }
                 domQuestionOverlay.firstElementChild.innerText = question.text;
-
                 if (host) {
                     domQuestionOverlay.lastElementChild.innerText = question.answer;
+                }
+                if (question.kind && question.kind !== 'normal') {
+                    domQuestionOverlay.classList.remove('resizetext');
+                    domQuestionOverlay.firstElementChild.style.fontSize = '2rem';
+                    document.getElementById('specialquestionbox').appendChild(question.domObj);
                 }
                 domQuestionOverlay.classList.remove('zoomedin');
                 domQuestionOverlay.classList.add('zoomedout');
@@ -502,15 +553,47 @@
                 // crossQuestion(catagoryId, questionId);
                 doResize();
             }
-            function hideQuestion(catagoryId, questionId) {
+            function hideQuestion(catagoryId, questionId, vaux = false) {
                 let question = board.catagories[catagoryId].questions[questionId];
                 let domQuestionOverlay = document.getElementById('questionoverlay');
+
+                domQuestionOverlay.classList.add('resizetext');
                 domQuestionOverlay.classList.add('zoomedin');
                 domQuestionOverlay.classList.remove('zoomedout');
                 shownCatagoryId = -1;
                 shownQuestionId = -1;
-                board.catagories[catagoryId].questions[questionId].taken = true;
-                setTimeout(() => {crossQuestion(catagoryId, questionId)}, 500);
+                if (vaux) {
+                    setTimeout(() => {
+                        let sqBox = document.getElementById('specialquestionbox');
+                        while (sqBox.firstChild) {
+                            sqBox.removeChild(sqBox.lastChild);
+                        }
+                        switch (question.kind) {
+                            case 'video':
+                                question.domObj.pause();
+                                question.domObj.currentTime = 0;
+                                break;
+                            case 'audio':
+                                question.domAnsObj.pause();
+                                question.domAnsObj.currentTime = 0;
+                            break;
+                            default:
+                                break;
+                        }
+                    }, 500);
+                } else {
+                    board.catagories[catagoryId].questions[questionId].taken = true;
+                    setTimeout(() => {
+                        // Remove possible video.
+                        if (question.domObj) question.domObj.remove();
+                        if (question.domAnsObj) question.domAnsObj.remove();
+                        let sqBox = document.getElementById('specialquestionbox');
+                        while (sqBox.firstChild) {
+                            sqBox.removeChild(sqBox.lastChild);
+                        }
+                        crossQuestion(catagoryId, questionId);
+                    }, 500);
+                }
             }
 
             function showSpecial(catagoryId, questionId, special) {
@@ -554,7 +637,7 @@
                                 }
                             }
                             if (lazyplayerupdate) rpc('/updateplayers', {players: players});
-                            rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId});
+                            rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId, vaux: false});
                         }
 
                     } else {
@@ -567,10 +650,18 @@
                     }
                 };
                 document.getElementById('titleimage').onclick = function() {
-                    if (confirm('Move to next board?')) {
-                        rpc('/nextboard');
+                    if (shownQuestionId != -1) {
+                        rpc('/hidequestion', {catId: shownCatagoryId, qId: shownQuestionId, vaux: true});
+                    } else {
+                        if (confirm('Move to next board?')) {
+                            rpc('/nextboard');
+                        }
                     }
+                    
                 };
+                document.getElementById('specialquestionbox').onclick = function() {
+                    rpc('/specialaction');
+                }
             }
             window.onresize = doResize;
             doResize();
@@ -578,8 +669,50 @@
             // drawPlayers();
 
             registerHandler('showquestion', (body) => showQuestion(body.catId, body.qId));
-            registerHandler('hidequestion', (body) => hideQuestion(body.catId, body.qId));
+            registerHandler('hidequestion', (body) => hideQuestion(body.catId, body.qId, body.vaux));
             registerHandler('showspecial', (body) => showSpecial(body.catId, body.qId, body.special));
+
+            registerHandler('specialaction', async (body) => {
+                if (shownQuestionId != -1) {
+                    let question = board.catagories[shownCatagoryId].questions[shownQuestionId];
+                    switch (question.kind) {
+                        case 'photo':
+                            // If photo has answer picture show it with animation.
+                            if (question.urlans) {
+                                let sqBox = document.getElementById('specialquestionbox');
+                                question.domObj.style.transform = 'rotate3d(0, 1, 0, 90deg)';
+                                question.domAnsObj.style.transform = 'rotate3d(0, 1, 0, 90deg)';
+                                await timeout(500);
+                                while (sqBox.firstChild) {
+                                    sqBox.removeChild(sqBox.lastChild);
+                                }
+                                question.domObj.style.transform = 'rotate3d(0, 1, 0, 0deg)';
+                                sqBox.appendChild(question.domAnsObj);
+                                await timeout(100);
+                                question.domAnsObj.style.transform = 'rotate3d(0, 1, 0, 0deg)';
+                            }
+                            break;
+                        case 'audio':
+                            if (question.domAnsObj.duration > 0 && !question.domAnsObj.paused) {
+                                question.domAnsObj.pause();
+                            } else {
+                                question.domAnsObj.play();
+                            }
+                            break;
+                        case 'video':
+                            if (question.domObj.duration > 0 && !question.domObj.paused) {
+                                question.domObj.pause();
+                            } else {
+                                question.domObj.play();
+                            }
+                            break;
+                        break;
+                        break;
+                        default:
+                            break;
+                    }
+                }
+            });
 
             registerHandler('players', (body) => {
                 players = body.players; 

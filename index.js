@@ -1,7 +1,9 @@
 const RestNio = require('restnio');
 
 new RestNio((router, rnio) => {
-    router.use('', rnio.serve(__dirname + '/www/', {cache: true, recursive: true, index: 'index.html'}));
+    router.use('', rnio.serve(__dirname + '/www/', {cache: true, recursive: false, index: 'index.html'}));
+    router.use('/resources', rnio.serve(__dirname + '/www/resources/', {cache: false, recursive: false}));
+
 
     router.ws('/host', (params, client) => {
         if (params.password === 'DOPE') {
@@ -12,268 +14,7 @@ new RestNio((router, rnio) => {
     });
 
     // GAME BOARD DEFINITION
-    let boards = [
-        {
-            name: 'Final Jeopardy',
-            catagories: [
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  0, taken: false},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  0, taken: false},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  0, taken: false},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  0, taken: false},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  0, taken: false},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  0, taken: false},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                }, 
-            ]
-        },
-        {
-            name: 'Round 1',
-            catagories: [
-                {
-                    name: 'Ballgames',
-                    questions: [
-                        {value:  200, taken: true, kind: 'normal', text: 'Soccer', answer: 'What is ballgame?'},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: false, special: 'dailydouble'},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: false},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: false},
-                    ]
-                }, 
-            ]
-        },
-        {
-            name: 'Round 2',
-            catagories: [
-                {
-                    name: 'BEEP',
-                    questions: [
-                        {value:  200, taken: true, kind: 'normal', text: 'Soccer', answer: 'What is ballgame?'},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: false},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'BOOP',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: false},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Chess',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'BAAP',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: false},
-                    ]
-                }, 
-            ]
-        },
-        {
-            name: 'Final Jeopardy',
-            catagories: [
-                {
-                    name: 'Final',
-                    questions: [
-                        {value:  0, taken: false, kind: 'normal', text: 'Soccer', answer: 'What is ballgame?', special: 'finaljeopardy'},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Final',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Final',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                },
-                {
-                    name: 'Jeopardy!',
-                    questions: [
-                        {value:  200, taken: true},
-                        {value:  400, taken: true},
-                        {value:  600, taken: true},
-                        {value:  800, taken: true},
-                        {value: 1000, taken: true},
-                    ]
-                }, 
-            ]
-        },
-    ];
+    let boards = require('./boards');
     let boardIndex = 0;
 
     let board = boards[boardIndex];
@@ -331,7 +72,8 @@ new RestNio((router, rnio) => {
     router.ws('/hidequestion', {
         params: {
             catId: rnio.$p.integer,
-            qId: rnio.$p.integer
+            qId: rnio.$p.integer,
+            vaux: rnio.$p.boolean
         },
         permissions: ['host'],
         func: (params) => {
@@ -340,7 +82,8 @@ new RestNio((router, rnio) => {
                 type: 'hidequestion', 
                 body: {
                     catId: params.catId,
-                    qId: params.qId
+                    qId: params.qId,
+                    vaux: params.vaux
                 }
             });
         }
@@ -384,6 +127,15 @@ new RestNio((router, rnio) => {
             rnio.subs('all').obj({
                 type: 'board',
                 body: {board}
+            });
+        }
+    });
+
+    router.ws('/specialaction', {
+        permissions: ['host'],
+        func: () => {
+            rnio.subs('all').obj({
+                type: 'specialaction'
             });
         }
     });
