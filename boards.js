@@ -172,7 +172,7 @@ module.exports = [
                         answer: 'Slag om Stalingrad'
                     },
                     {
-                        value:  1000, 
+                        value:  800, 
                         taken: false, 
                         kind: 'normal',
                         special: 'dailydouble',
@@ -433,7 +433,7 @@ module.exports = [
                         answer: 'Frank Sinatra'
                     },
                     {
-                        value:  1000, 
+                        value:  800, 
                         taken: false, 
                         kind: 'normal',
                         special: 'dailydouble',

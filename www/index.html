@@ -586,6 +586,18 @@
                     }, 500);
                 } else {
                     board.catagories[catagoryId].questions[questionId].taken = true;
+                    switch (question.kind) {
+                            case 'video':
+                                question.domObj.pause();
+                                question.domObj.currentTime = 0;
+                                break;
+                            case 'audio':
+                                question.domAnsObj.pause();
+                                question.domAnsObj.currentTime = 0;
+                            break;
+                            default:
+                                break;
+                    }
                     setTimeout(() => {
                         // Remove possible video.
                         if (question.domObj) question.domObj.remove();
