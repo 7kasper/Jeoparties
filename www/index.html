@@ -40,7 +40,7 @@
                 height: 2.975rem;
                 padding: 0.2rem;
                 text-align: center; /*Show this V*/
-                transition: opacity ease-in-out 0.4s, background-color ease-in-out 0.01s;
+                transition: opacity ease-in-out 1s, background-color ease-in-out 0.01s;
             }
             .catagory.card {
                 color: white;
@@ -540,6 +540,9 @@
                 domQuestionOverlay.firstElementChild.innerText = question.text;
                 if (host) {
                     domQuestionOverlay.lastElementChild.innerText = question.answer;
+                } else {
+                    domQuestionOverlay.lastElementChild.innerText = '';
+
                 }
                 if (question.kind && question.kind !== 'normal') {
                     domQuestionOverlay.classList.remove('resizetext');
@@ -599,6 +602,7 @@
             function showSpecial(catagoryId, questionId, special) {
                 let question = board.catagories[catagoryId].questions[questionId];
                 let domQuestionOverlay = document.getElementById('questionoverlay');
+                domQuestionOverlay.classList.add('resizetext')
                 switch (special) {
                     case 'dailydouble':
                         domQuestionOverlay.firstElementChild.innerText = 'DAILY DOUBLE!';
@@ -618,6 +622,7 @@
                 shownCatagoryId = catagoryId;
                 shownQuestionId = questionId;
                 insideSpecialQuestion = true;
+                doResize();
             }
 
             if (host) {
