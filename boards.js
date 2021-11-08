@@ -229,7 +229,7 @@ module.exports = [
                         kind: 'photo', 
                         text: 'Zie foto',
                         url: '/resources/berg-e.PNG',
-                        anser: 'Mount Everest'
+                        answer: 'Mount Everest'
                     }
                 ]
             },
@@ -404,7 +404,7 @@ module.exports = [
                         kind: 'photo', 
                         text: 'Zie foto',
                         url: '/resources/tvseries-e.jpg',
-                        anser: 'Star Trek the next generation'
+                        answer: 'Star Trek the next generation'
                     }
                 ]
             },
@@ -490,7 +490,7 @@ module.exports = [
                         kind: 'photo', 
                         text: 'Zie foto',
                         url: '/resources/aap-e.png',
-                        anser: 'Neusaap'
+                        answer: 'Neusaap'
                     }
                 ]
             },
@@ -661,7 +661,7 @@ module.exports = [
                         kind: 'photo', 
                         text: 'Zie foto',
                         url: '/resources/kleinland-e.PNG',
-                        anser: 'Liechtenstein'
+                        answer: 'Liechtenstein'
                     }
                 ]
             },
@@ -751,7 +751,7 @@ module.exports = [
                         text: 'Kijk goed',
                         url: '/resources/zoom-c.PNG',
                         urlans: '/resources/zoom-c-uit.PNG',
-                        anser: 'Piano(toetsen)'
+                        answer: 'Piano(toetsen)'
                     }
                 ]
             },
@@ -1056,7 +1056,7 @@ module.exports = [
                 name: 'Uit welke film was dat ook al weer?',
                 questions: [
                     {
-                        value:  400, 
+                        value:  400,
                         taken: false,
                         kind: 'video',
                         text: 'Uit welke film?',
@@ -1067,7 +1067,7 @@ module.exports = [
                         value:  800, 
                         taken: false,
                         kind: 'video',
-                        text: 'James Bond Film',
+                        text: 'Uit welke film?',
                         url: '/resources/film-b.mp4',
                         answer: 'Star Wars Episode 6 (Return of the Jedi)'
                     },
@@ -1075,7 +1075,7 @@ module.exports = [
                         value:  1200, 
                         taken: false,
                         kind: 'video',
-                        text: 'James Bond Film',
+                        text: 'Uit welke film?',
                         url: '/resources/film-d.mp4',
                         answer: 'Godfather (I)'
                     },
@@ -1083,7 +1083,7 @@ module.exports = [
                         value: 1600, 
                         taken: false,
                         kind: 'video',
-                        text: 'James Bond Film',
+                        text: 'Uit welke film?',
                         url: '/resources/film-e.mp4',
                         answer: 'Schindler\'s list'
                     },
@@ -1091,7 +1091,7 @@ module.exports = [
                         value:  2000, 
                         taken: false,
                         kind: 'video',
-                        text: 'James Bond Film',
+                        text: 'Uit welke film?',
                         url: '/resources/film-c.mp4',
                         answer: 'The good the bad and the ugly.'
                     }
