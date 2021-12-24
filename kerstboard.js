@@ -666,42 +666,52 @@ module.exports = [
                 ]
             },
             {
-                name: 'Scoutingfeitjes',
+                name: 'Doorzien',
                 questions: [
                     {
                         value:  400, 
                         taken: false,
-                        kind: 'normal',
-                        text: 'De oprichter van scouting.',
-                        answer: 'Lord baden powell.'
+                        kind: 'photo',
+                        text: 'Twee dezelfde kerstbomen.',
+                        url: '/resources/ZoekDezelfdeKerstboomQ.PNG',
+                        urlans: '/resources/ZoekDezelfdeKerstboomA.PNG',                        
+                        answer: 'E en F'
                     },
                     {
                         value:  800, 
                         taken: false,
-                        kind: 'normal',
-                        text: 'Zoveel jaar bestaat scouting in Nederland.',
-                        answer: '111 jaar'
+                        kind: 'photo',,
+                        text: 'Twee dezelfde poppetjes.',
+                        url: '/resources/ZoekDezelfdePopQ.PNG',
+                        urlans: '/resources/ZoekDezelfdePopA.PNG',
+                        answer: 'A en F'
                     },
                     {
                         value:  1200, 
                         taken: false,
-                        kind: 'normal',
-                        text: 'Zo heet de afgebrandde blokhut van de uw',
-                        answer: 'Het Meibos'
+                        kind: 'photo',
+                        text: 'Een slee is anders.',
+                        url: '/resources/ZoekVerschillendeSleeQ.PNG',
+                        urlans: '/resources/ZoekVerschillendeSleeA.PNG',
+                        answer: 'C'
                     },
                     {
                         value:  1600, 
                         taken: false,
-                        kind: 'normal',
-                        text: 'Nu we het toch over blokhutten hebben, dit is de naam van de huidige hut.',
-                        answer: '\'t Springdel'
+                        kind: 'photo',
+                        text: 'Het logische vierde plaatje.',
+                        url: '/resources/VolgendePlaatje1Q.PNG',
+                        urlans: '/resources/VolgendePlaatje1A.PNG',                        
+                        answer: 'B'
                     },
                     {
                         value: 2000, 
                         taken: false,
-                        kind: 'normal',
-                        text: 'Zoveel jaar bestaat de UW [of de stichting waaruit het is voorgekomen]',
-                        answer: '51 jaar en (90 jaar)'
+                        kind: 'photo',
+                        text: 'Het logische vierde plaatje.',
+                        url: '/resources/VolgendePlaatje2Q.PNG',
+                        urlans: '/resources/VolgendePlaatje2A.PNG',
+                        answer: 'A'
                     },
                 ]
             },
