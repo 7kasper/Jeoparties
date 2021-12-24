@@ -5,7 +5,7 @@ module.exports = [
             {
                 name: 'Jeoparties',
                 questions: [
-                    {value:  0,   taken: true},
+                    {value:    0, taken: true},
                     {value:  400, taken: true},
                     {value:  600, taken: true},
                     {value: 1000, taken: false},
@@ -25,7 +25,7 @@ module.exports = [
             {
                 name: 'Jeoparties',
                 questions: [
-                    {value:  0,   taken: true},
+                    {value:    0, taken: true},
                     {value:  400, taken: true},
                     {value:  600, taken: true},
                     {value:  800, taken: true},
@@ -35,7 +35,7 @@ module.exports = [
             {
                 name: 'Jeoparties',
                 questions: [
-                    {value:  0,   taken: true},
+                    {value:    0, taken: true},
                     {value:  400, taken: true},
                     {value:  600, taken: true},
                     {value:  800, taken: true},
@@ -55,7 +55,7 @@ module.exports = [
             {
                 name: 'Jeoparties',
                 questions: [
-                    {value:  0,   taken: true},
+                    {value:    0, taken: true},
                     {value:  400, taken: true},
                     {value:  600, taken: true},
                     {value: 1000, taken: false},
@@ -240,7 +240,7 @@ module.exports = [
                         value:  200, 
                         taken: false, 
                         kind: 'normal', 
-                        text: 'Het aantal onderdelen in een heptatlon?', 
+                        text: 'Het aantal onderdelen in een heptatlon.', 
                         answer: '7'
                     },
                     {
@@ -515,15 +515,15 @@ module.exports = [
                         value:  600, 
                         taken: false,
                         kind: 'normal',
-                        text: 'In welk land staat het grootste gebouw ter wereld?',
+                        text: 'In dit land staat het grootste gebouw ter wereld.',
                         answer: 'China'
                     },
                     {
                         value:  800, 
                         taken: false, 
                         kind: 'normal',
-                        text: 'Wat is de hoofdstad van Chili?',
-                        answer: 'Santiago/Santiago de Chile'
+                        text: 'Dit is de hoofdstad van Chili.',
+                        answer: 'Santiago / Santiago de Chile'
                     },
                     {
                         value: 1000, 
@@ -543,34 +543,34 @@ module.exports = [
                         taken: false, 
                         kind: 'normal', 
                         text: 'Zo heet de bekende Italiaanse citroenlikeur.', 
-                        answer: 'Limomcello'
+                        answer: 'Limoncello'
                     },
                     {
                         value:  400, 
                         taken: false,
                         kind: 'normal',
-                        text: 'In welk land wordt wereldwijd het meeste bier gedronken per inwoner?',
+                        text: 'In dit land wordt wereldwijd het meeste bier gedronken per inwoner.',
                         answer: 'Tsjechië'
                     },
                     {
                         value:  600, 
                         taken: false,
                         kind: 'normal',
-                        text: 'Welke frisdrank wordt het meest gedronken in de wereld?',
+                        text: 'Deze frisdrank wordt het meest gedronken in de wereld.',
                         answer: 'Coca Cola'
                     },
                     {
                         value:  800, 
                         taken: false, 
                         kind: 'normal',
-                        text: 'De verklaring voor of bubbels in alcohol ervoor zorgen dat je sneller dronken ervan wordt.',
-                        answer: 'Sneller, vanwege irritatie bij de buikwand verwijden je bloedvaten en daardoor wordt de alcohol sneller geabsorbeerd.'
+                        text: 'Hierdoor word je sneller dronken door bubbels in alcohol.',
+                        answer: 'Door irritatie van de buikwand verwijden je bloedvaten en daardoor wordt de alcohol sneller geabsorbeerd.'
                     },
                     {
                         value: 1000, 
                         taken: false,
                         kind: 'normal',
-                        text: 'Welke gemeenschappelijke smaakmaker hebben de drankjes ouzo, sambuca, absint en raki?',
+                        text: 'Deze gemeenschappelijke smaakmaker hebben de drankjes ouzo, sambuca, absint en raki.',
                         answer: 'Anijs'
                     },
                 ]
@@ -690,7 +690,7 @@ module.exports = [
                         value:  1200, 
                         taken: false,
                         kind: 'photo',
-                        text: 'Een slee is anders.',
+                        text: 'Eén slee is anders.',
                         url: '/resources/ZoekVerschillendeSleeQ.PNG',
                         urlans: '/resources/ZoekVerschillendeSleeA.PNG',
                         answer: 'C'
@@ -806,7 +806,7 @@ module.exports = [
                 ]
             },
             {
-                name: 'James Bond intros',
+                name: 'James Bond intro\'s',
                 questions: [
                     {
                         value:  400, 
@@ -856,42 +856,45 @@ module.exports = [
         name: 'Round 4',
         catagories: [
             {
-                name: 'Ken je leiding',
+                name: 'Shangri-La',
                 questions: [
                     {
                         value:  400, 
                         taken: false, 
                         kind: 'normal', 
-                        text: 'Deze leiding is recentelijk naar de scouts gegaan.', 
-                        answer: 'Hathi/Laurens'
+                        text: 'Zoveel WC-brillen heeft dit huis.', 
+                        answer: '4'
                     },
                     {
                         value:  800, 
                         taken: false,
                         kind: 'normal',
-                        text: 'Onze nieuwe secretaris.',
-                        answer: 'Rakscha / Sascha'
+                        text: 'Zoveel kamers of ruimtes met buitendeuren heeft dit huis.',
+                        answer: '6: garage, slaapkamer, hal, woonkamer, keuken, logeerkamer'
                     },
                     {
                         value:  1200, 
                         taken: false,
                         kind: 'normal',
-                        text: 'De grote beer.',
-                        answer: 'Balou / Sander'
+                        text: 'De plek van dit tafereel.',
+                        url: '/resources/WaarInDitHuis3.PNG',
+                        answer: 'WC boven'
                     },
                     {
                         value:  1600, 
                         taken: false, 
                         kind: 'normal',
-                        text: 'Deze leidingen doen/hebben iets met auto\'s gedaan.',
-                        answer: '(Hathi), Jacala en Sander'
+                        text: 'Zoveel zonnepanelen liggen hier op het dak.',
+                        urlans: '/resources/Zonnepanelen.PNG',
+                        answer: '25'
                     },
                     {
                         value: 2000, 
                         taken: false,
                         kind: 'normal',
-                        text: 'De leeftijd van onze jongste leiding.',
-                        answer: '20'
+                        text: 'De plek van dit ding.',
+                        url: '/resources/WaarInDitHuis1.PNG',
+                        answer: 'Gang beneden'
                     },
                 ]
             },
@@ -937,7 +940,7 @@ module.exports = [
                 ]
             },
             {
-                name: 'Vehikels',
+                name: 'Voertuigen',
                 questions: [
                     {
                         value:  400, 
