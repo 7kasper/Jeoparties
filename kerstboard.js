@@ -680,7 +680,7 @@ module.exports = [
                     {
                         value:  800, 
                         taken: false,
-                        kind: 'photo',,
+                        kind: 'photo',
                         text: 'Twee dezelfde poppetjes.',
                         url: '/resources/ZoekDezelfdePopQ.PNG',
                         urlans: '/resources/ZoekDezelfdePopA.PNG',
@@ -875,7 +875,7 @@ module.exports = [
                     {
                         value:  1200, 
                         taken: false,
-                        kind: 'normal',
+                        kind: 'photo',
                         text: 'De plek van dit tafereel.',
                         url: '/resources/WaarInDitHuis3.PNG',
                         answer: 'WC boven'
@@ -883,7 +883,7 @@ module.exports = [
                     {
                         value:  1600, 
                         taken: false, 
-                        kind: 'normal',
+                        kind: 'photo',
                         text: 'Zoveel zonnepanelen liggen hier op het dak.',
                         urlans: '/resources/Zonnepanelen.PNG',
                         answer: '25'
@@ -891,7 +891,7 @@ module.exports = [
                     {
                         value: 2000, 
                         taken: false,
-                        kind: 'normal',
+                        kind: 'photo',
                         text: 'De plek van dit ding.',
                         url: '/resources/WaarInDitHuis1.PNG',
                         answer: 'Gang beneden'
