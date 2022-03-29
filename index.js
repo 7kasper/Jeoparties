@@ -14,7 +14,7 @@ new RestNio((router, rnio) => {
     });
 
     // GAME BOARD DEFINITION
-    let boards = require('./kerstboard');
+    let boards = require('./teslaboard');
     let boardIndex = 0;
 
     let board = boards[boardIndex];
